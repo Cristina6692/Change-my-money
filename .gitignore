@@ -1,6 +1,6 @@
 # Others
 Inputs/coins/
-coins_resized_label_img_path.csv
+Output/output_csv
 .DS_Store
 
 # Byte-compiled / optimized / DLL files
