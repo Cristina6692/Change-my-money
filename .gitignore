@@ -1,7 +1,9 @@
 # Others
 Inputs/coins/
-Output/output_csv
+Inputs/dataset_master
+Output/data
 .DS_Store
+new_images/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
