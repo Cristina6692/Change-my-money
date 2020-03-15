@@ -28,25 +28,28 @@ def readImages(path,labels):
 
 def rotAndTransfImg(img_array,grados):
     '''Input: array de imagen, grados a rotar'''
-    '''Output: Devuelve el array de la imagen rotada'''
- 
+    '''Output: Devuelve el array de la imagen rotada y de 70x70'''
     img = ndimage.rotate(img_array, grados)
     img = cv2.resize(img,(70,70))
-    img = np.stack(img) / 255.0
-
     return img
 
 
 
 def transfImg(img_array):
-    '''Transforma imagen en array, hace resize(70x70) y la convierte en apta para entrenar el modelo'''
-    print (f'transforming image to 70x70')
-    
+    '''Hace resize(70x70)''' 
     img_data = cv2.resize(img_array,(70,70))
-    img_data = np.stack(img_data) / 255.0
-    
     return img_data
 
+def newImagTransf(path):
+    print ('transforming image from {}'.format(path))
+
+    img=cv2.imread(path)
+    img_data=cv2.resize(img,(70,70))
+    
+    img_data = np.stack(img_data)
+    img_data = img_data / 255.0
+    
+    return img_data
 
 def rotateConcat(coins_original, coins, grados):
     ''' Rota y transforma los arrays de un dataframe y los concatena al otro df con sus respectivas labels'''
@@ -54,9 +57,11 @@ def rotateConcat(coins_original, coins, grados):
     coins_gr = pd.DataFrame()
     coins_gr['image'] = coins_original['image'].apply(lambda x: rotAndTransfImg(x,grados))
     coins_gr = coins_gr.join(coins_original['label'])
-    coins = pd.concat([coins,coins_gr])
+    coins = pd.concat([coins,coins_gr], ignore_index=True)
     print(coins.shape)
     return coins
+
+
 
 
 def videoToFrames(path):
